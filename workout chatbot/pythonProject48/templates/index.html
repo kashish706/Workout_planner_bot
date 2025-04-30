@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Workout Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #dfe9f3, #ffffff);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header .purple {
+      color: purple;
+      font-weight: 800;
+    }
+
+    header .blue {
+      color: #007bff;
+      font-weight: 800;
+    }
+
+    header h2 {
+      font-size: 1.8rem;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .form-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      margin: 30px auto;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+
+    #chat {
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 12px 15px;
+      border-radius: 10px;
+      line-height: 1.5;
+      max-width: 90%;
+      white-space: pre-line;
+    }
+
+    .bot {
+      background: #e4e4ff;
+      color: #333;
+      text-align: left;
+    }
+
+    .user {
+      background: #cce5ff;
+      color: #000;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><span class="purple">AI WORKOUT PLAN</span><br><span class="blue"> GENERATOR</span></h1>
+      <h2>Welcome to our Fitness Chatbot!</h2>
+      <p>
+        Get personalized fitness plans tailored to your needs.<br>
+        Beginner or experienced, we guide you towards a healthier, fitter you.<br>
+        <strong>Start your fitness journey today!</strong>
+      </p>
+    </header>
+
+    <div class="form-card">
+      <div id="chat"></div>
+      <input type="text" id="user-input" placeholder="Type your answer..." autocomplete="off" />
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('user-input');
+
+    const questions = [
+      "Enter your name:",
+      "Enter your age:",
+      "Enter your gender (Male/Female/Other):",
+      "Enter your height in cm:",
+      "Enter your weight in kg:",
+      "Select difficulty (Beginner/Intermediate/Advanced):",
+      "What's your fitness goal?"
+    ];
+
+    const answers = {};
+    let currentQuestion = 0;
+
+    function addMessage(text, sender = 'bot') {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.textContent = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function handleInput() {
+      const value = input.value.trim();
+      if (!value) return;
+
+      addMessage(value, 'user');
+      const keys = ['name', 'age', 'gender', 'height', 'weight', 'difficulty', 'goal'];
+      answers[keys[currentQuestion]] = value;
+      input.value = '';
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        setTimeout(() => addMessage(questions[currentQuestion]), 500);
+      } else {
+        fetch("/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(answers)
+        })
+        .then(res => res.json())
+        .then(data => {
+          addMessage(data.response);
+        })
+        .catch(() => {
+          addMessage("Something went wrong while contacting the server.");
+        });
+      }
+    }
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleInput();
+      }
+    });
+
+    // Start chatbot
+    addMessage(questions[currentQuestion]);
+  </script>
+
+</body>
+</html>

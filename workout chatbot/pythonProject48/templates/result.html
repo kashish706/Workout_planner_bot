@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Workout Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ name }}'s Workout Plan</h1>
+        <div class="plan">
+            {{ plan|safe }}
+        </div>
+        <a href="/">Create Another Plan</a>
+    </div>
+</body>
+</html>

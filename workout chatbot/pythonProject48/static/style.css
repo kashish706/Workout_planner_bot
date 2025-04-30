@@ -1,0 +1,90 @@
+body {
+  background: #e6f2ff;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+header .purple {
+  color: purple;
+  font-weight: 800;
+}
+
+header .blue {
+  color: #007bff;
+  font-weight: 800;
+}
+
+header h2 {
+  font-size: 1.8rem;
+  margin-top: 10px;
+  color: #333;
+}
+
+header p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-card h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form button {
+  background: purple;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background: darkmagenta;
+}
+
+#loadingSpinner {
+  margin-top: 10px;
+  color: purple;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
